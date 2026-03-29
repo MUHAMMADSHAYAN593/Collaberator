@@ -49,11 +49,13 @@ function LiveDot({ colorClass = 'bg-emerald-400' }) {
 export default function App() {
   const usernameFromQuery =
     new URLSearchParams(window.location.search).get('username')?.trim() || ''
+  const awsSocketUrl = 'http://docker-aws-deploy-web-1371067597.ap-northeast-1.elb.amazonaws.com'
   const isViteLocalDev =
     window.location.hostname === 'localhost' && window.location.port === '5173'
+  const isVercelHost = window.location.hostname.endsWith('.vercel.app')
   const socketServerUrl =
     import.meta.env.VITE_SOCKET_URL?.trim() ||
-    (isViteLocalDev ? 'http://localhost:3000' : window.location.origin)
+    (isViteLocalDev ? 'http://localhost:3000' : isVercelHost ? awsSocketUrl : window.location.origin)
 
   const editorRef = useRef(null)
   const providerRef = useRef(null)
